@@ -3,6 +3,13 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "framework": null,
+  "redirects": [
+    {
+      "source": "/register",
+      "destination": "https://u3.shortink.io/register?utm_campaign=833194&utm_source=affiliate&utm_medium=sr&a=yrgAxAq2iHNnl8&ac=selfnadeem&code=50START",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
