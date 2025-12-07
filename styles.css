@@ -5,1091 +5,367 @@
     box-sizing: border-box;
 }
 
-:root {
-    --primary-glow: #00ff00;
-    --secondary-glow: #00ffff;
-    --accent-color: #00ff00;
-}
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    background: #000000;
     color: #ffffff;
     min-height: 100vh;
-    min-height: -webkit-fill-available; /* iOS Safari fix */
+    min-height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
     line-height: 1.5;
     position: relative;
     overflow-x: hidden;
+    overflow-y: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animated background particles */
-body::before {
-    content: '';
+/* Matrix Money Rain */
+.money-rain {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(0, 255, 0, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-    animation: particleFloat 20s ease-in-out infinite;
     pointer-events: none;
     z-index: 0;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-@keyframes particleFloat {
-    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-    33% { transform: translate(30px, -30px) scale(1.1); opacity: 0.7; }
-    66% { transform: translate(-20px, 20px) scale(0.9); opacity: 0.6; }
-}
-
-/* Trading Price Ticker */
-.trading-ticker {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.95), rgba(10, 10, 10, 0.95));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    border-bottom: 1px solid rgba(0, 255, 0, 0.2);
-    padding: 0.5rem 0;
-    overflow: hidden;
-    z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0, 255, 0, 0.1);
-    width: 100%;
-    max-width: 100vw;
-}
-
-.ticker-content {
-    display: flex;
-    gap: 3rem;
-    animation: tickerScroll 30s linear infinite;
-    white-space: nowrap;
-    will-change: transform;
-}
-
-.ticker-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.25rem 1rem;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.ticker-symbol {
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    min-width: 70px;
-}
-
-.ticker-price {
-    color: #ffffff;
-    font-weight: 700;
-    font-family: 'Courier New', monospace;
-    min-width: 100px;
-    text-align: right;
-}
-
-.ticker-price.up {
-    color: #00ff00;
-    animation: pricePulse 2s ease-in-out infinite;
-}
-
-.ticker-price.down {
-    color: #ff4444;
-    animation: pricePulse 2s ease-in-out infinite;
-}
-
-.ticker-change {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    min-width: 60px;
-    text-align: center;
-}
-
-.ticker-change.up {
-    background: rgba(0, 255, 0, 0.15);
-    color: #00ff00;
-}
-
-.ticker-change.down {
-    background: rgba(255, 68, 68, 0.15);
-    color: #ff4444;
-}
-
-@keyframes tickerScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-@keyframes pricePulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-/* Trading Stats Bar */
-.trading-stats {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.6));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 255, 0, 0.2);
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.1);
-    animation: fadeInUp 1s ease-out 0.5s both;
-    position: relative;
     overflow: hidden;
 }
 
-.trading-stats::before {
-    content: '';
+.money-drop {
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.1), transparent);
-    animation: statsShimmer 3s ease-in-out infinite;
-}
-
-@keyframes statsShimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.stat-label {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.stat-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
+    color: #00ffff;
     font-family: 'Courier New', monospace;
-    animation: numberCount 2s ease-out;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 200, 255, 0.3);
+    opacity: 0.8;
+    animation: fall linear infinite;
+    user-select: none;
 }
 
-.stat-value.profit {
-    color: #00ff00;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+.money-drop:nth-child(odd) {
+    color: #00aaff;
+    opacity: 0.6;
 }
 
-.stat-divider {
-    width: 1px;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.1);
+.money-drop:nth-child(3n) {
+    color: #0088ff;
+    opacity: 0.7;
 }
 
-@keyframes numberCount {
-    from {
+@keyframes fall {
+    0% {
+        transform: translateY(-100px);
         opacity: 0;
-        transform: translateY(10px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    10% {
+        opacity: 0.8;
     }
-}
-
-/* Trading Chart Background */
-.trading-chart-bg {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 150px;
-    opacity: 0.15;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.chart-svg {
-    width: 100%;
-    height: 100%;
-}
-
-.chart-line {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: chartDraw 3s ease-out forwards, chartMove 20s linear infinite;
-    filter: drop-shadow(0 0 3px rgba(0, 255, 0, 0.5));
-}
-
-.chart-area {
-    opacity: 0;
-    animation: chartFadeIn 3s ease-out 1s forwards, chartMove 20s linear infinite;
-}
-
-.chart-svg:hover .chart-line {
-    stroke-width: 3;
-    filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.8));
-}
-
-@keyframes chartDraw {
-    to {
-        stroke-dashoffset: 0;
+    90% {
+        opacity: 0.8;
     }
-}
-
-@keyframes chartFadeIn {
-    to {
-        opacity: 0.3;
-    }
-}
-
-@keyframes chartMove {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100px); }
-}
-
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    margin-bottom: 1rem;
-    margin-top: 3rem;
-    position: relative;
-    z-index: 10;
-    animation: fadeInDown 0.8s ease-out;
-}
-
-@keyframes fadeInDown {
-    from {
+    100% {
+        transform: translateY(100vh);
         opacity: 0;
-        transform: translateY(-20px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.icon-btn {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #ffffff;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-}
-
-.icon-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.icon-btn:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.icon-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-.icon-btn:active {
-    transform: scale(0.95);
-}
-
-.icon-btn svg {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.3s ease;
-}
-
-.icon-btn:hover svg {
-    transform: scale(1.2);
 }
 
 /* Main content */
 .main-content {
-    flex: 1;
+    width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 1rem 0;
-    max-width: 500px;
-    margin: 0 auto;
-    width: 100%;
     position: relative;
     z-index: 1;
 }
 
-/* Logo container */
-.logo-container {
-    margin-bottom: 2rem;
+/* Circular Image Container */
+.image-container {
     width: 100%;
     display: flex;
     justify-content: center;
-    animation: fadeInUp 1s ease-out 0.2s both;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.logo-circle {
-    width: 200px;
-    height: 200px;
+.circular-image {
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(0, 255, 0, 0.1), #000000);
+    overflow: hidden;
     position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Promotional Overlay */
+.promo-overlay {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem 1.25rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.promo-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-        0 0 40px rgba(0, 255, 0, 0.3),
-        inset 0 0 40px rgba(0, 255, 0, 0.1);
-    animation: logoPulse 3s ease-in-out infinite, logoRotate 20s linear infinite;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
 }
 
-.logo-circle::before {
+.check-icon {
+    width: 32px;
+    height: 32px;
+    background: #00ff00;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-weight: bold;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.promo-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.promo-text {
+    font-size: 0.95rem;
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+/* Telegram Button */
+.telegram-button {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(34, 158, 217, 0.4), rgba(0, 136, 204, 0.4));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 1.25rem 2rem;
+    border-radius: 16px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 8px 32px rgba(34, 158, 217, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 60px rgba(34, 158, 217, 0.3);
+    animation: buttonGlow 2s ease-in-out infinite;
+}
+
+.telegram-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.telegram-button::after {
     content: '';
     position: absolute;
     top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
-    background: conic-gradient(
-        transparent,
-        rgba(0, 255, 0, 0.1),
-        transparent 30%
-    );
-    animation: rotate 3s linear infinite;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
-.logo-circle::after {
-    content: '';
-    position: absolute;
-    inset: 2px;
-    border-radius: 50%;
-    background: #000000;
-    z-index: 0;
-}
-
-@keyframes logoPulse {
+@keyframes buttonGlow {
     0%, 100% {
         box-shadow: 
-            0 0 40px rgba(0, 255, 0, 0.3),
-            inset 0 0 40px rgba(0, 255, 0, 0.1);
+            0 8px 32px rgba(34, 158, 217, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+            0 0 60px rgba(34, 158, 217, 0.3);
     }
     50% {
         box-shadow: 
-            0 0 60px rgba(0, 255, 0, 0.5),
-            inset 0 0 60px rgba(0, 255, 0, 0.15);
+            0 8px 40px rgba(34, 158, 217, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+            0 0 80px rgba(34, 158, 217, 0.5),
+            0 0 100px rgba(34, 158, 217, 0.3);
     }
 }
 
-@keyframes logoRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.logo-circle:hover {
-    transform: scale(1.05);
+.telegram-button:hover {
+    background: linear-gradient(135deg, rgba(34, 158, 217, 0.5), rgba(0, 136, 204, 0.5));
+    transform: translateY(-3px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 
-        0 0 80px rgba(0, 255, 0, 0.6),
-        inset 0 0 80px rgba(0, 255, 0, 0.2);
+        0 12px 48px rgba(34, 158, 217, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+        0 0 80px rgba(34, 158, 217, 0.6),
+        0 0 120px rgba(34, 158, 217, 0.4);
+    animation: none;
 }
 
-.logo-image {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-    animation: logoGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes logoGlow {
-    from {
-        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-    }
-    to {
-        filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
-    }
-}
-
-/* Profile info */
-.profile-name {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
-    letter-spacing: 1px;
-    text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.5),
-        0 0 20px rgba(0, 255, 0, 0.3);
-    animation: fadeInUp 1s ease-out 0.4s both, textShimmer 3s ease-in-out infinite;
-    position: relative;
-}
-
-@keyframes textShimmer {
-    0%, 100% {
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.5),
-            0 0 20px rgba(0, 255, 0, 0.3);
-    }
-    50% {
-        text-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.8),
-            0 0 40px rgba(0, 255, 0, 0.6),
-            0 0 60px rgba(0, 255, 0, 0.4);
-    }
-}
-
-.profile-slogan {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2.5rem;
-    animation: fadeInUp 1s ease-out 0.6s both;
-    letter-spacing: 0.5px;
-}
-
-/* Buttons container */
-.buttons-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    animation: fadeInUp 1s ease-out 0.8s both;
-}
-
-.action-btn {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 20, 0.8));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 1rem 1.25rem;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 400;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.action-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.action-btn:hover::before {
-    left: 100%;
-}
-
-.action-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.5), rgba(0, 255, 255, 0.5));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-
-.action-btn:hover::after {
+.telegram-button:hover::before {
     opacity: 1;
 }
 
-.action-btn:hover {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 255, 0.1));
-    border-color: rgba(0, 255, 0, 0.5);
-    transform: translateY(-2px) scale(1.02);
+.telegram-button:hover::after {
+    opacity: 1;
+}
+
+.telegram-button:active {
+    transform: translateY(-1px) scale(0.98);
     box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(0, 255, 0, 0.3);
+        0 4px 20px rgba(34, 158, 217, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+        0 0 40px rgba(34, 158, 217, 0.4);
 }
 
-.action-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.action-btn:nth-child(1) {
-    animation-delay: 0.8s;
-}
-
-.action-btn:nth-child(2) {
-    animation-delay: 0.9s;
-}
-
-.action-btn:nth-child(3) {
-    animation-delay: 1s;
-}
-
-.action-btn:nth-child(4) {
-    animation-delay: 1.1s;
-}
-
-.btn-icon {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    position: relative;
-    z-index: 1;
-    filter: drop-shadow(0 0 5px var(--primary-glow));
-    transition: all 0.3s ease;
-}
-
-.action-btn:hover .btn-icon {
-    transform: scale(1.2) rotate(5deg);
-    filter: drop-shadow(0 0 10px var(--primary-glow));
-}
-
-.btn-text {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    transition: letter-spacing 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.btn-text-line1 {
-    display: block;
-}
-
-.btn-text-line2 {
-    display: block;
-    font-size: 0.85em;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* Center text, keep icon on right */
-.action-btn {
-    position: relative;
-}
-
-.action-btn:hover .btn-text {
-    letter-spacing: 0.5px;
-}
-
-.btn-menu-icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    opacity: 0.7;
-    position: absolute;
-    right: 1.25rem;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.action-btn:hover .btn-menu-icon {
-    opacity: 1;
-    transform: scale(1.2);
-}
-
-/* Footer */
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    margin-top: auto;
-    position: relative;
-    z-index: 10;
-    animation: fadeInUp 1s ease-out 1.2s both;
-}
-
-.platform-icon {
-    color: #ffffff;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-}
-
-.platform-icon::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    padding: 2px;
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.5), rgba(0, 255, 255, 0.5));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-
-.platform-icon:hover::before {
-    opacity: 1;
-}
-
-.platform-icon:hover {
-    opacity: 1;
-    transform: translateY(-5px) scale(1.15) rotate(5deg);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.platform-icon:active {
-    transform: translateY(-3px) scale(1.1);
-}
-
-.platform-icon svg {
-    width: 32px;
-    height: 32px;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.3s ease;
-}
-
-.platform-icon:hover svg {
-    transform: scale(1.1);
-}
-
-/* Responsive design - Mobile adjustments for trading elements */
-@media (max-width: 767px) {
+/* Mobile optimizations */
+@media (max-width: 480px) {
     body {
-        padding: 0.75rem;
-        padding-top: 3.5rem;
+        padding: 0.5rem;
     }
 
-    /* Trading Ticker Mobile */
-    .trading-ticker {
-        font-size: 0.65rem;
-        padding: 0.4rem 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
+    .circular-image {
+        width: 240px;
+        height: 240px;
     }
 
-    .ticker-content {
-        gap: 2rem;
-        animation-duration: 25s;
+    .promo-overlay {
+        padding: 1.25rem 1rem;
+        border-radius: 12px;
     }
 
-    .ticker-item {
-        gap: 0.4rem;
-        padding: 0.2rem 0.6rem;
-        flex-shrink: 0;
-    }
-
-    .ticker-symbol {
-        min-width: 55px;
-        font-size: 0.65rem;
-    }
-
-    .ticker-price {
-        min-width: 70px;
-        font-size: 0.7rem;
-        font-weight: 600;
-    }
-
-    .ticker-change {
-        font-size: 0.6rem;
-        min-width: 45px;
-        padding: 0.15rem 0.4rem;
-    }
-
-    /* Header Mobile */
-    .header {
-        margin-top: 2.5rem;
-        margin-bottom: 0.75rem;
-        padding: 0.25rem 0;
-    }
-
-    .icon-btn {
-        width: 38px;
-        height: 38px;
-    }
-
-    .icon-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    /* Main Content Mobile */
-    .main-content {
-        padding: 0.5rem 0;
-        max-width: 100%;
-    }
-
-    /* Logo Mobile */
-    .logo-container {
-        margin-bottom: 1.5rem;
-    }
-
-    .logo-circle {
-        width: 160px;
-        height: 160px;
-    }
-
-    .logo-image {
-        width: 85%;
-        height: 85%;
-    }
-
-    /* Profile Info Mobile */
-    .profile-name {
-        font-size: 1.5rem;
-        margin-bottom: 0.4rem;
-        letter-spacing: 0.3px;
-    }
-
-    .profile-slogan {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-    }
-
-    /* Trading Stats Mobile */
-    .trading-stats {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 0.875rem 1rem;
-        margin-bottom: 1.25rem;
-        width: 100%;
-    }
-
-    .stat-item {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .stat-label {
-        font-size: 0.65rem;
-    }
-
-    .stat-value {
+    .promo-title {
         font-size: 1rem;
     }
 
-    .stat-divider {
-        width: 100%;
-        height: 1px;
-        margin: 0;
-    }
-
-    /* Buttons Mobile */
-    .buttons-container {
-        gap: 0.875rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .action-btn {
-        padding: 0.875rem 1rem;
-        font-size: 0.9rem;
-        border-radius: 14px;
-        min-height: 52px;
-        gap: 0.625rem;
-    }
-
-    .btn-icon {
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
-    }
-
-    .btn-text {
+    .promo-text {
         font-size: 0.875rem;
-        line-height: 1.4;
+        margin-bottom: 1.25rem;
     }
 
-    .btn-menu-icon {
-        width: 18px;
-        height: 18px;
+    .telegram-button {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+        border-radius: 14px;
+        max-width: 100%;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* Footer Mobile */
-    .footer {
-        gap: 1.25rem;
-        padding: 1.25rem 0;
-        flex-wrap: wrap;
-    }
-
-    .platform-icon {
-        padding: 6px;
-    }
-
-    .platform-icon svg {
+    .check-icon {
         width: 28px;
         height: 28px;
+        font-size: 18px;
     }
 
-    /* Trading Chart Mobile */
-    .trading-chart-bg {
-        height: 80px;
-        opacity: 0.1;
+    /* Reduce money rain on mobile for performance */
+    .money-drop {
+        font-size: 14px;
     }
 
-    /* Prevent text overflow */
-    .btn-text {
-        word-break: break-word;
-        hyphens: auto;
-    }
-
-    /* Better touch targets */
-    .action-btn,
-    .icon-btn,
-    .platform-icon {
-        -webkit-tap-highlight-color: rgba(0, 255, 0, 0.2);
-        touch-action: manipulation;
-    }
-
-    /* Logo image optimized for mobile */
-
-    .logo-circle {
-        animation-duration: 4s, 25s;
-    }
-
-    /* Floating indicators smaller on mobile */
-    .floating-indicator {
-        font-size: 1.5rem !important;
+    .promo-overlay {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
-/* Extra small mobile devices */
 @media (max-width: 375px) {
-    body {
-        padding: 0.5rem;
-        padding-top: 3.25rem;
+    .circular-image {
+        width: 200px;
+        height: 200px;
     }
 
-    .logo-circle {
-        width: 140px;
-        height: 140px;
+    .promo-overlay {
+        padding: 1rem 0.875rem;
     }
 
-    .profile-name {
-        font-size: 1.35rem;
-    }
-
-    .profile-slogan {
-        font-size: 0.85rem;
-    }
-
-    .action-btn {
-        padding: 0.75rem 0.875rem;
-        font-size: 0.85rem;
-        min-height: 48px;
-    }
-
-    .trading-stats {
-        padding: 0.75rem 0.875rem;
-    }
-
-    .stat-value {
+    .promo-title {
         font-size: 0.95rem;
     }
 
-    .ticker-item {
-        padding: 0.2rem 0.5rem;
-        gap: 0.3rem;
+    .promo-text {
+        font-size: 0.8rem;
     }
 
-    .ticker-symbol {
-        min-width: 50px;
-        font-size: 0.6rem;
+    .telegram-button {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+        border-radius: 12px;
+        min-height: 52px;
     }
 
-    .ticker-price {
-        min-width: 65px;
-        font-size: 0.65rem;
+    .check-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 16px;
     }
 }
 
-/* Responsive design - Tablet */
-@media (min-width: 768px) {
-    body {
-        padding: 2rem;
-    }
-
-    .main-content {
-        max-width: 600px;
-        padding: 2rem 0;
-    }
-
-    .logo-circle {
-        width: 250px;
-        height: 250px;
-    }
-
-    .profile-name {
-        font-size: 2.25rem;
-    }
-
-    .profile-slogan {
-        font-size: 1.125rem;
-    }
-
-    .action-btn {
-        padding: 1.25rem 1.5rem;
-        font-size: 1.125rem;
-    }
-
-    .buttons-container {
-        gap: 1.25rem;
-    }
-
-    .trading-stats {
-        padding: 1.25rem 2rem;
-    }
-
-    .stat-value {
-        font-size: 1.3rem;
-    }
+/* Prevent horizontal scroll */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
-/* Responsive design - Desktop */
-@media (min-width: 1024px) {
-    body {
-        padding: 3rem;
-    }
-
-    .main-content {
-        max-width: 700px;
-        padding: 3rem 0;
-    }
-
-    .logo-circle {
-        width: 300px;
-        height: 300px;
-    }
-
-    .profile-name {
-        font-size: 2.5rem;
-    }
-
-    .profile-slogan {
-        font-size: 1.25rem;
-    }
-
-    .action-btn {
-        padding: 1.5rem 2rem;
-        font-size: 1.25rem;
-    }
-
-    .buttons-container {
-        gap: 1.5rem;
-    }
-
-    .footer {
-        gap: 2rem;
-    }
-
-    .platform-icon svg {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-/* Responsive design - Large screens */
-@media (min-width: 1440px) {
-    .main-content {
-        max-width: 800px;
-    }
+/* Better touch targets */
+.telegram-button {
+    -webkit-tap-highlight-color: rgba(34, 158, 217, 0.3);
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Smooth scroll */
@@ -1097,26 +373,4 @@ html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-}
-
-/* Performance optimizations */
-* {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Prevent horizontal scroll on mobile */
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-/* Better mobile scrolling */
-@media (max-width: 767px) {
-    body {
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .main-content {
-        padding-bottom: 2rem;
-    }
 }

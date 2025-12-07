@@ -1,0 +1,22 @@
+{
+  "name": "archit-kedia-trading-profile",
+  "version": "1.0.0",
+  "description": "A modern, responsive trading profile website with animated trading elements",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -o",
+    "dev": "http-server -p 8000 -o"
+  },
+  "keywords": [
+    "trading",
+    "profile",
+    "website"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
+
+
